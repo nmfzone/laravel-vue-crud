@@ -15,7 +15,9 @@ const root = path.resolve(__dirname);
 mix.webpackConfig({
   resolve: {
     alias: {
-      '@root': `${root}/resources/assets/js`
+      '@root': `${root}/resources/assets/js`,
+      '@common': `${root}/resources/assets/js/components/common`,
+      '@component': `${root}/resources/assets/js/components`
     }
   }
 });

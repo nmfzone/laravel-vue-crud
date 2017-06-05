@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::resource('/users', 'UsersController', ['only' => ['index', 'create', 'show', 'edit']]);
+});

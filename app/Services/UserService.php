@@ -15,6 +15,10 @@ class UserService
      */
     public function create(Collection $data)
     {
+        $data = $data->merge([
+            'password' => bcrypt($data->get('password')),
+        ]);
+
         return User::create($data->toArray());
     }
 
@@ -30,6 +34,12 @@ class UserService
         $data = $data->reject(function ($value) {
             return is_null($value);
         });
+
+        if ($data->has('password')) {
+            $data = $data->merge([
+                'password' => bcrypt($data->get('password')),
+            ]);
+        }
 
         $user->update($data->toArray());
 
