@@ -15,7 +15,6 @@ class FormRequest extends BaseFormRequest
      */
     public function response(array $errors)
     {
-        dd($this->is('api/*'));
         if ($this->expectsJson() || $this->is('api/*')) {
             return new JsonResponse($errors, 422);
         }
