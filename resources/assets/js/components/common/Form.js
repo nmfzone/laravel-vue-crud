@@ -119,13 +119,16 @@ export class Form {
    * @param {object} errors
    */
   onFail(errors) {
-    VueInstance.$data.alert.show = true
     VueInstance.$data.alert.type = 'danger'
 
-    if (errors.message.length && errors.message !== '' && errors.message !== null) {
-      VueInstance.$data.alert.message = errors.message
-    } else {
-      VueInstance.$data.alert.message = 'Whoops! Something went wrong.'
+    if (typeof errors.message !== 'undefined') {
+      VueInstance.$data.alert.show = true
+
+      if (errors.message !== null && errors.message !== '') {
+        VueInstance.$data.alert.message = errors.message
+      } else {
+        VueInstance.$data.alert.message = 'Whoops! Something went wrong.'
+      }
     }
 
     this.errors.record(errors)
