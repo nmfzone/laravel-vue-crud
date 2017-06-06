@@ -8,6 +8,12 @@
   import { Form } from '@common/Form'
 
   export default {
+    props: {
+      userId: {
+        type: Number,
+        required: true
+      }
+    },
     data() {
       return {
         //
@@ -21,17 +27,16 @@
         password_confirmation: null
       })
 
-      this.$root.$on('formSubmitted', this.createUser)
+      this.getUser()
     },
     methods: {
-      createUser() {
+      getUser() {
         const vm = this
 
-        this.$root.form.post('/api/users')
-          .then(response => {
-            vm.$root.form.reset()
-
-            vm.$root.alert.message = 'Users has been successfully created.'
+        axios.get(`/api/users/${vm.userId}`)
+          .then(({data}) => {
+            vm.$root.form.email = data.email
+            vm.$root.form.name = data.name
           })
       }
     }

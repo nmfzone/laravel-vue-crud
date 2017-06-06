@@ -36,7 +36,23 @@ class UserRequest extends FormRequest
             case 'PATCH':
                 return $rules->merge([
                     'email' => $rules->get('email') . ',email,' . $user->id,
+                    'password' => '',
                 ])->toArray();
+        }
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+            $validator->sometimes('password', 'string|min:6|confirmed', function ($input) {
+                return ! is_null($input->password);
+            });
         }
     }
 }

@@ -6,10 +6,10 @@
 
 @section('content')
   <div class="panel panel-primary">
-    <div class="panel-heading">Create User</div>
+    <div class="panel-heading">Edit User</div>
 
     <div class="panel-body">
-      <user-create-form>
+      <user-edit-form :user-id="{{ $user->id }}">
         <form-alert :show="alert.show" :state="alert.type">
           @{{ alert.message }}
         </form-alert>
@@ -43,7 +43,11 @@
             <label class="col-md-4 control-label">Password</label>
 
             <div class="col-md-6">
-              <input type="password" class="form-control" v-model="form.password" required>
+              <input type="password" class="form-control" v-model="form.password">
+
+              <span class="help-block">
+                Leave it blank if you don't intend to change the password.
+              </span>
 
               <span class="help-block" v-if="form.errors.has('password')">
                 <strong>@{{ form.errors.get('password') }}</strong>
@@ -55,7 +59,7 @@
             <label class="col-md-4 control-label">Password Confirmation</label>
 
             <div class="col-md-6">
-              <input type="password" class="form-control" v-model="form.password_confirmation" required>
+              <input type="password" class="form-control" v-model="form.password_confirmation">
 
               <span class="help-block" v-if="form.errors.has('password_confirmation')">
                 <strong>@{{ form.errors.get('password_confirmation') }}</strong>
@@ -67,12 +71,12 @@
             <div class="col-md-6 col-md-offset-4">
               <a href="{{ URL::previous() }}" class="btn btn-default">Back</a>
               <button type="submit" class="btn btn-primary" :disabled="form.errors.any()">
-                <i class="fa fa-btn fa-save"></i> Save
+                <i class="fa fa-btn fa-save"></i> Update
               </button>
             </div>
           </div>
         </form>
-      </user-create-form>
+      </user-edit-form>
     </div>
   </div>
 @endsection

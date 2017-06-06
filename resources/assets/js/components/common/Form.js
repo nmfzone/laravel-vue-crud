@@ -16,7 +16,6 @@ export class Form {
     this.errors = new Error()
   }
 
-
   /**
    * Fetch all relevant data for the form.
    */
@@ -30,18 +29,20 @@ export class Form {
     return data
   }
 
-
   /**
    * Reset the form fields.
+   *
+   * @param  {array}  fields
    */
-  reset() {
+  reset(fields = null) {
     for (let field in this.originalData) {
-      this[field] = ''
+      if (fields === null || (fields !== null && fields.includes(field))) {
+        this[field] = ''
+      }
     }
 
     this.errors.clear()
   }
-
 
   /**
    * Send a POST request to the given URL.
@@ -52,7 +53,6 @@ export class Form {
     return this.submit('post', url)
   }
 
-
   /**
    * Send a PUT request to the given URL.
    * .
@@ -61,7 +61,6 @@ export class Form {
   put(url) {
     return this.submit('put', url)
   }
-
 
   /**
    * Send a PATCH request to the given URL.
@@ -72,7 +71,6 @@ export class Form {
     return this.submit('patch', url)
   }
 
-
   /**
    * Send a DELETE request to the given URL.
    * .
@@ -81,7 +79,6 @@ export class Form {
   delete(url) {
     return this.submit('delete', url)
   }
-
 
   /**
    * Submit the form.
@@ -111,9 +108,10 @@ export class Form {
    * @param {object} data
    */
   onSuccess(data) {
-    this.reset()
+    VueInstance.$data.alert.show = true
+    VueInstance.$data.alert.type = 'success'
+    VueInstance.$data.alert.message = ''
   }
-
 
   /**
    * Handle a failed form submission.
@@ -121,6 +119,15 @@ export class Form {
    * @param {object} errors
    */
   onFail(errors) {
+    VueInstance.$data.alert.show = true
+    VueInstance.$data.alert.type = 'danger'
+
+    if (errors.message.length && errors.message !== '' && errors.message !== null) {
+      VueInstance.$data.alert.message = errors.message
+    } else {
+      VueInstance.$data.alert.message = 'Whoops! Something went wrong.'
+    }
+
     this.errors.record(errors)
   }
 }
